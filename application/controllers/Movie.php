@@ -33,4 +33,26 @@ class Movie extends CI_Controller
 		
 	}
 
+	public function detail($id)
+	{
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, 'https://api.themoviedb.org/3/movie/'.$id.'?api_key=28112d15341f7f84fb5953983547c82a');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$detail = curl_exec($curl);
+		curl_close($curl);
+		
+		$data['detail'] = json_decode($detail, true);
+
+		$curl2 = curl_init();
+		curl_setopt($curl2, CURLOPT_URL, 'https://api.themoviedb.org/3/movie/'.$id.'/credits?api_key=28112d15341f7f84fb5953983547c82a');
+		curl_setopt($curl2, CURLOPT_RETURNTRANSFER, 1);
+		$credits = curl_exec($curl2);
+		curl_close($curl2);
+		
+		$data['credits'] = json_decode($credits, true);
+		
+
+		$this->load->view('movie/detail', $data);
+	}
+
 }

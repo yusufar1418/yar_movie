@@ -63,7 +63,7 @@
                 <h5 class="card-title"><?= $movie['name']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><?= $movie['first_air_date']; ?></h6>
                   <?php endif; ?>
-                <a href="#" class="card-link see-detail" data-toggle="modal" data-target="#exampleModal" data-id="<?= $movie['id']; ?>">See Detail</a>
+                <a href="<?= base_url('movie/detail/') .$movie['id']; ?>" class="card-link see-detail">See Detail</a>
               </div>
             </div>
             </div>
@@ -89,7 +89,7 @@
                 <h5 class="card-title"><?= $movie['title']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><?= $movie['release_date']; ?></h6>
                  
-                <a href="#" class="card-link see-detail" data-toggle="modal" data-target="#exampleModal" data-id="<?= $movie['id']; ?>">See Detail</a>
+                <a href="<?= base_url('movie/detail/') .$movie['id']; ?>" class="card-link see-detail">See Detail</a>
               </div>
             </div>
             </div>
