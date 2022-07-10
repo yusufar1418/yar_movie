@@ -29,12 +29,16 @@ class Movie extends CI_Controller
 		$data['upcoming'] = json_decode($upcoming, true);
 		
 
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/topbar', $data);
 		$this->load->view('movie/index', $data);
+		$this->load->view('templates/footer', $data);
 		
 	}
 
 	public function detail($id)
 	{
+		$data['title'] = 'YAR MOVIE';
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, 'https://api.themoviedb.org/3/movie/'.$id.'?api_key=28112d15341f7f84fb5953983547c82a');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -51,8 +55,18 @@ class Movie extends CI_Controller
 		
 		$data['credits'] = json_decode($credits, true);
 		
-
+		$curl3 = curl_init();
+		curl_setopt($curl3, CURLOPT_URL, 'https://api.themoviedb.org/3/movie/'.$id.'/videos?api_key=28112d15341f7f84fb5953983547c82a');
+		curl_setopt($curl3, CURLOPT_RETURNTRANSFER, 1);
+		$videos = curl_exec($curl3);
+		curl_close($curl3);
+		
+		$data['videos'] = json_decode($videos, true);
+		
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/topbar', $data);
 		$this->load->view('movie/detail', $data);
+		$this->load->view('templates/footer', $data);
 	}
 
 }

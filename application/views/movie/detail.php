@@ -1,41 +1,27 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-    <title>YAR Movie</title>
-  </head>
-  <body>
-    
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">    
-        <a class="navbar-brand" href="#">YAR Movie</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Search Movie</a>
-            
-            </div>
-        </div>
-    </div>
-  </nav>
 
 <div class="container-fluid mt-4">
-            <div class="row">
-              <div class="col-md-4">
+    <div class="row" id="movie-list">
+           
+              <div class="col-md-3">
+                <div>
                 <img src="https://image.tmdb.org/t/p/w500<?= $detail['poster_path']; ?>" class="img-fluid">
-              </div>
+                </div>
                 
-              <div class="col-md-8">
+              <div class="text-center mt-3">
+
+                <h3>SCORE: <?= $detail['vote_average']; ?>/10</h3>
+
+              </div>
+              </div>
+              
+                
+              <div class="col-md-9">
                 <ul class="list-group">
-                  <li class="list-group-item"><h3><?= $detail['original_title']; ?></h3></li>
+                  <?php $getDate = $detail['release_date']; 
+                  $year = explode("-", $getDate);
+                  ?>
+                  <li class="list-group-item"><h3><?= $detail['original_title']; ?> (<?= $year[0]; ?>)</h3></li>
                   <li class="list-group-item"><b>Sinopsis:</b> <?= $detail['overview']; ?></li>
                   <li class="list-group-item"><b>Released:</b> <?= $detail['release_date']; ?></li>
                   <?php
@@ -44,10 +30,7 @@
                     $genres[] = $genre['name'];
                   }
 
-                  $actors = [];
-                  foreach ($credits['cast'] as $actor){
-                    $actors[] = $actor['name'];
-                  }
+  
                   ?>
 
                   <li class="list-group-item"><b>Genre:</b> 
@@ -55,30 +38,58 @@
                     <?= $genre; ?>,
                     <?php endforeach;?>   
                     </li>
+                  <li class="list-group-item"><b>Director:</b> 
+                   <?php foreach ($credits['crew'] as $crew): ?>
+                      <?php if ($crew['department'] == "Directing"): ?>
+                        <?= $crew['name']; ?>,
+                      <?php endif ?>
+                    <?php endforeach;?>   
+                    </li>
+
+                  <li class="list-group-item"><b>Writers:</b> 
+                   <?php foreach ($credits['crew'] as $crew): ?>
+                      <?php if ($crew['department'] == "Writing"): ?>
+                        <?= $crew['name']; ?>,
+                      <?php endif ?>
+                    <?php endforeach;?>   
+                    </li>
+
                   <li class="list-group-item"><b>Actors:</b> 
-                    <?php foreach ($actors as $actor): ?>
-                    <?= $actor; ?>,
-                    <?php endforeach;?></li>
-                  <li class="list-group-item">
-                    <div class="row">
-                      <div class="col-md-6">
-                    <iframe width="360" height="210" src="https://www.youtube.com/embed/JOddp-nlNvQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="col-md-6">
-                    <iframe width="360" height="210" src="https://www.youtube.com/embed/JOddp-nlNvQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      <div class="row">
+                    <?php foreach (array_slice($credits['cast'],0,6) as $actor): ?>
+                      <div class="card mb-2">
+                        <?php $profile = $actor['profile_path']; ?>
+                          <div class="" style="width: 8rem;">
+                          <img class="card-img-top" src="https://image.tmdb.org/t/p/w500/<?= $profile; ?>" alt="Card image cap">
+                          <div class="card-body">
+                            <h5 class="card-text"><?= $actor['name']; ?></h5>
+                            <p class="card-text"><?= $actor['character']; ?></p>
+                          </div>
+                        </div>
                   </div>
+                    <?php endforeach;?>
+                    See More...
+                </div>
+                  </li>
+                  <li class="list-group-item"><b>Videos:</b>
+
+                    <div class="row">
+                      <?php foreach ($videos['results'] as $v): ?>
+                        <?php if ($v['type'] == "Teaser"): ?>
+              
+                        <div class="col-md-4">
+                    <iframe width="250" height="210" src="https://www.youtube.com/embed/<?= $v['key']; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                      <?php endif ?>
+                      <?php endforeach ?>
+                      
+                    
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
+          </div>
 
-  <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  
