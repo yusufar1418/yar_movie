@@ -24,7 +24,15 @@
                 <h5 class="card-title"><?= $movie['name']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><?= $movie['first_air_date']; ?></h6>
                   <?php endif; ?>
-                <a href="<?= base_url('movie/detail/') .$movie['id']; ?>" class="card-link see-detail">See Detail</a>
+
+                  <?php 
+                       if ($movie['media_type'] == "movie") {
+                       $type_detail = 1;
+                     }else{
+                       $type_detail = 2;
+                     } 
+                  ?>
+                <a href="<?= base_url('movie/detail/') .$movie['id'] . '/' .$type_detail; ?>" class="card-link see-detail">See Detail</a>
               </div>
             </div>
             </div>

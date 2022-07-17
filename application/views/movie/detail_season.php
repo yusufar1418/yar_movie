@@ -7,23 +7,28 @@
                 <div>
                 <img src="https://image.tmdb.org/t/p/w500<?= $detail['poster_path']; ?>" class="img-fluid">
                 </div>
-                
-              <div class="text-center mt-3">
 
-                <h3>SCORE: <?= $detail['vote_average']; ?>/10</h3>
-
-              </div>
               </div>
               
                 
               <div class="col-md-9">
                 <ul class="list-group">
-                  <?php $getDate = $detail['release_date']; 
+                  <?php $getDate = $detail['air_date']; 
                   $year = explode("-", $getDate);
                   ?>
-                  <li class="list-group-item"><h3><?= $detail['original_title']; ?> (<?= $year[0]; ?>)</h3></li>
+                  <li class="list-group-item"><h3><?= $detail['name']; ?> (<?= $year[0]; ?>)</h3></li>
                   <li class="list-group-item"><b>Sinopsis:</b> <?= $detail['overview']; ?></li>
-                  <li class="list-group-item"><b>Released:</b> <?= $detail['release_date']; ?></li>
+                  <li class="list-group-item"><b>Released:</b> <?= $detail['air_date']; ?></li>
+                  <li class="list-group-item"><b>Total Episode:</b> <?= $detail['number_of_episodes']; ?></li>
+
+                  <li class="list-group-item"><b>Season:</b>
+                  <?php for ($i=1; $i <= $detail['number_of_seasons']; $i++) : ?> 
+                    <a href="<?= base_url('movie/detail_season/') .$detail['id']."/".$i; ?>"><?= $i ?></a> 
+                  <?php endfor ; ?>
+                  </li>
+                    
+                 
+                  
                   <?php
                   $genres = [];
                   foreach ($detail['genres'] as $genre){
